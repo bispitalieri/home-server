@@ -1,0 +1,22 @@
+name: backup-system
+
+services:
+  rclone-backup:
+    image: rclone/rclone:latest
+    container_name: rclone-backup
+    restart: unless-stopped
+    entrypoint: ["/bin/sh", "-c", "echo \"$$CRON_SCHEDULE /scripts/backup.sh\" > /etc/crontabs/root && crond -f -l 2"]
+    environment:
+      - CRON_SCHEDULE=0 3 * * * # Esegue il backup ogni notte alle 03:00
+      - TZ=Europe/Rome
+    volumes:
+      - ./rclone.conf:/config/rclone/rclone.conf:ro
+      - ./scripts:/scripts:ro
+      # Monta la cartella radice dove tieni tutti i tuoi stack Docker:
+      - /backup:/backup-source:ro
+    networks:
+      - proxy-network
+
+networks:
+  proxy-network:
+    external: true

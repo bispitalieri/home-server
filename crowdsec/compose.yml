@@ -1,0 +1,19 @@
+name: crowdsec
+
+services:
+  crowdsec:
+    image: crowdsecurity/crowdsec:latest
+    container_name: crowdsec
+    restart: unless-stopped
+    environment:
+      - COLLECTIONS=crowdsecurity/nginx crowdsecurity/http-cve
+    volumes:
+      - ./config:/etc/crowdsec
+      - ./data:/var/lib/crowdsec/data
+      - ./proxy-logs:/var/log/nginx:ro
+    networks:
+      - proxy-network
+
+networks:
+  proxy-network:
+    external: true

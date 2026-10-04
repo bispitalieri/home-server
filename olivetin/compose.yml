@@ -1,0 +1,22 @@
+name: olivetin
+
+services:
+  olivetin:
+    image: jamesread/olivetin:latest
+    container_name: olivetin
+    restart: unless-stopped
+    volumes:
+      - ./config:/config
+      - ./config/config.yaml:/config/config.yaml
+      - /var/run/docker.sock:/var/run/docker.sock
+      - SSD_PATH:/ssd
+    group_add:
+      - "988"
+    user: "1000:998"
+    privileged: true
+    networks:
+      - proxy-network
+
+networks:
+  proxy-network:
+    external: true

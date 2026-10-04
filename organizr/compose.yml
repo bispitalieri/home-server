@@ -1,0 +1,19 @@
+name: organizr
+
+services:
+  organizr:
+    image: organizr/organizr:latest
+    container_name: organizr
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Europe/Rome
+    volumes:
+      - ./config:/config
+    restart: unless-stopped
+    networks:
+      - proxy-network
+
+networks:
+  proxy-network:
+    external: true

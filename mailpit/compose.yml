@@ -1,0 +1,26 @@
+name: mailpit
+
+services:
+  mailpit:
+    image: axllent/mailpit:latest
+    container_name: mailpit
+    restart: unless-stopped
+    volumes:
+      - ./data:/data
+      - ./config:/config
+    environment:
+      # --- Configurazione Web UI & Autenticazione ---
+      - MP_MAX_MESSAGES=5000
+      - MP_DATABASE=/data/mailpit.db
+      - MP_UI_AUTH_FILE=/config/users
+      - TZ=Europe/Rome
+      - MP_ALLOW_INTERNAL_HTTP_REQUESTS=true
+      # --- Configurazione SMTP Relay verso Brevo ---
+      - MP_SMTP_RELAY_CONFIG=/config/relay.yml
+      - MP_SMTP_RELAY_ALL=true
+    networks:
+      - proxy-network
+
+networks:
+  proxy-network:
+    external: true

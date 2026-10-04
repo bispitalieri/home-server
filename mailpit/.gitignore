@@ -1,0 +1,7 @@
+data/
+config/
+.env
+.env.*
+*.log
+*.db
+mailpit.db*

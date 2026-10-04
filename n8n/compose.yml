@@ -1,0 +1,42 @@
+name: n8n
+
+services:
+  n8n:
+    image: docker.n8n.io/n8nio/n8n
+    container_name: n8n
+    restart: unless-stopped
+    environment:
+      - N8N_ENFORCE_SETTINGS_FILE_PERMISSIONS=true
+      - N8N_HOST=${SUBDOMAIN}.${DOMAIN_NAME}
+      - N8N_PORT=5678
+      - N8N_PROTOCOL=https
+      - NODE_ENV=production
+      - N8N_TRUSTED_PROXIES=true
+      - N8N_WEBHOOK_URL=https://${SUBDOMAIN}.${DOMAIN_NAME}/
+      - N8N_RESTRICT_FILE_ACCESS_TO=/files
+      - N8N_UNVERIFIED_PACKAGES_ENABLED=true
+      - N8N_RUNNERS_TASK_TIMEOUT=120
+      - N8N_COMPRESSION_NODE_MAX_DECOMPRESSED_SIZE_BYTES=1073741824
+      - N8N_COMPRESSION_NODE_MAX_ZIP_ENTRIES=1000
+      - N8N_ALLOW_EXECUTE_COMMAND=true
+      - N8N_ENABLE_NODE_DEV=true
+      - NODES_EXCLUDE=[]
+      - N8N_FILESYSTEM_PATH_WHITELIST=/videos
+      - N8N_BLOCK_ENV_ACCESS_IN_NODE=false
+      - N8N_RESTRICT_FILE_ACCESS_TO=
+      - GENERIC_TIMEZONE=${GENERIC_TIMEZONE}
+      - TZ=${GENERIC_TIMEZONE}
+    volumes:
+      - n8n_data:/home/node/.n8n
+      - ./local-files:/files
+      - ./videos:/videos
+      - ./videos:/home/node/.n8n-files
+    networks:
+      - proxy-network
+
+volumes:
+  n8n_data:
+
+networks:
+  proxy-network:
+    external: true

@@ -1,0 +1,19 @@
+name: watchtower
+
+services:
+  watchtower:
+    image: nickfedor/watchtower:latest
+    container_name: watchtower
+    restart: always
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - DOCKER_CONFIG_PATH:/config.json:ro
+    environment:
+      - WATCHTOWER_NOTIFICATIONS=shoutrrr
+      - WATCHTOWER_NOTIFICATION_URL=TG_BOT_TOKEN_PLACEHOLDER
+      - WATCHTOWER_NOTIFICATION_REPORT_HISTORIC=true
+      - WATCHTOWER_CLEANUP=true
+      #- WATCHTOWER_POLL_INTERVAL=86400
+      - TZ=Europe/Rome
+      - WATCHTOWER_SCHEDULE=0 0 4 * * *
+      - WATCHTOWER_UPDATE_ON_START=true

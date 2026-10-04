@@ -1,0 +1,33 @@
+name: netdata
+
+services:
+  netdata:
+    image: netdata/netdata:stable
+    init: true
+    container_name: netdata
+    restart: unless-stopped
+    hostname: raspberrypi
+    cap_add:
+      - SYS_PTRACE
+      - SYS_ADMIN
+    security_opt:
+      - apparmor:unconfined
+    volumes:
+      - netdatacache:/var/cache/netdata
+      - netdatalib:/var/lib/netdata
+      - /proc:/host/proc:ro
+      - /sys:/host/sys:ro
+      - /etc/os-release:/host/etc/os-release:ro
+    environment:
+      - DOCKER_HOST=tcp://docker-proxy:2375
+      - NETDATA_DISABLE_CLOUD=1
+    networks:
+      - proxy-network
+
+volumes:
+  netdatacache:
+  netdatalib:
+
+networks:
+  proxy-network:
+    external: true

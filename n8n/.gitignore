@@ -1,0 +1,6 @@
+.env
+.env.*
+!.env.example
+local-files/
+videos/
+*.log

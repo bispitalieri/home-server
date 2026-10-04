@@ -1,0 +1,10 @@
+.idea/
+.vscode/
+.DS_Store
+.env
+.env.*
+*.log
+*.sqlite
+*.db
+db.sqlite3*
+portfolio

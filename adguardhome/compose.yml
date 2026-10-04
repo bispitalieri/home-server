@@ -1,0 +1,20 @@
+name: adguardhome
+
+services:
+  adguardhome:
+    image: adguard/adguardhome:latest
+    container_name: adguardhome
+    restart: unless-stopped
+    ports:
+      # Porte per la risoluzione DNS sulla rete locale
+      - "53:53/tcp"
+      - "53:53/udp"
+    volumes:
+      - ./workdir:/opt/adguardhome/work
+      - ./confdir:/opt/adguardhome/conf
+    networks:
+      - proxy-network
+
+networks:
+  proxy-network:
+    external: true

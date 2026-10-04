@@ -1,0 +1,18 @@
+name: uptime-kuma
+
+services:
+  uptime-kuma:
+    image: louislam/uptime-kuma:2
+    container_name: uptime
+    restart: unless-stopped
+    volumes:
+      - ./data:/app/data
+    environment:
+      - DOCKER_HOST=tcp://docker-proxy:2375
+    networks:
+      - proxy-network
+
+networks:
+  proxy-network:
+    name: proxy-network
+    external: true

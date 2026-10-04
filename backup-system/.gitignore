@@ -1,0 +1,5 @@
+.env
+.env.*
+rclone.conf
+*.log
+scripts/backup-*.sh

@@ -1,0 +1,42 @@
+name: proxy
+
+services:
+  app:
+    image: 'jc21/nginx-proxy-manager:latest'
+    container_name: proxy
+    restart: unless-stopped
+    ports:
+      - '80:80'      # HTTP pubblico (riceve il traffico da cloudflared o LAN)
+      - '81:81'      # Dashboard di amministrazione web
+      - '443:443'    # HTTPS pubblico
+    environment:
+      DB_MYSQL_HOST: "db"
+      DB_MYSQL_PORT: 3306
+      DB_MYSQL_USER: "proxy"
+      DB_MYSQL_PASSWORD: "DB_MYSQL_PASSWORD_PLACEHOLDER"
+      DB_MYSQL_NAME: "proxy"
+    volumes:
+      - ./data:/data
+      - ./letsencrypt:/etc/letsencrypt
+    depends_on:
+      - db
+    networks:
+      - default
+      - proxy-network
+
+  db:
+    image: 'mariadb:latest'
+    container_name: proxy-db
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: "MYSQL_ROOT_PASSWORD_PLACEHOLDER"
+      MYSQL_DATABASE: 'proxy'
+      MYSQL_USER: 'proxy'
+      MYSQL_PASSWORD: 'DB_MYSQL_PASSWORD_PLACEHOLDER'
+    volumes:
+      - ./data/mysql:/var/lib/mysql
+
+networks:
+  proxy-network:
+    name: proxy-network
+    driver: bridge
