@@ -3,6 +3,10 @@
 
 A comprehensive Docker-based home server infrastructure with multiple services for networking, security, monitoring, and application hosting.
 
+[![Docker](https://img.shields.io/badge/Docker-2496ED?logo=docker&logoColor=white)](https://www.docker.com/)
+[![Linux](https://img.shields.io/badge/Linux-FCC624?logo=linux&logoColor=black)](https://www.linux.org/)
+[![Raspberry Pi](https://img.shields.io/badge/Raspberry%20Pi-A22846?logo=raspberrypi&logoColor=white)](https://www.raspberrypi.com/)
+[![Nginx Proxy Manager](https://img.shields.io/badge/Nginx%20Proxy%20Manager-F15833?logo=nginx&logoColor=white)](https://nginxproxymanager.com/)
 ## Overview
 
 This repository contains a collection of Docker Compose configurations for a home server environment. It provides a modular architecture with separate services for various purposes:
